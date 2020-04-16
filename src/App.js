@@ -6,7 +6,7 @@ import Header from './components/header/header'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up'
 import './App.css'
 import {Switch, Route} from 'react-router-dom'
-import {auth} from './firebase/firbase.utils'
+import {auth, createUserProfileDocument} from './firebase/firebase.utils'
 
 
 class App extends Component{
@@ -20,9 +20,27 @@ class App extends Component{
   unsubscribeFromAuth = null;
 
   componentDidMount(){
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user=>{
-      console.log(user)
-      this.setState({currentUser:user})
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
+      if(userAuth){
+
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot( snapshot =>{
+
+          this.setState({
+            currentUser:{
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          }, ()=>{
+              console.log('state', this.state)
+          
+          })
+          
+        })
+      }else{
+        this.setState({currentUser: userAuth})
+      }
     })
   }
 
