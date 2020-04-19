@@ -1,12 +1,15 @@
 import React from 'react';
-import './header.styles.scss'
-import {Link} from 'react-router-dom'
-import {ReactComponent as Logo} from '../../../src/assets/crown.svg'
-import {auth} from '../../firebase/firebase.utils'
+import './header.styles.scss';
+import {Link} from 'react-router-dom';
+import {ReactComponent as Logo} from '../../../src/assets/crown.svg';
+import {auth} from '../../firebase/firebase.utils';
+import {connect} from 'react-redux';
 
 const Header =({currentUser})=>{
         return(
+           
             <div className='header'>
+                
                 <Link className='logo-container' to='/'>
                     <Logo className='logo'/>
                 </Link>
@@ -26,6 +29,11 @@ const Header =({currentUser})=>{
         )
     
 
-}
+};
 
-export default Header;
+//getting currentUser from reducer through connect
+const mapStateToProps = state =>({
+    currentUser:state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Header);
