@@ -5,7 +5,7 @@ import Shop from './pages/shop/shop';
 import Header from './components/header/header'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up'
 import './App.css'
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 import {auth, createUserProfileDocument} from './firebase/firebase.utils'
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user.actions'
@@ -28,9 +28,9 @@ class App extends Component{
               ...snapshot.data()
           }) 
         })
-      }//else{
+      }else{
         setCurrentUser(userAuth)
-      //}
+      }
     })
   }
 
@@ -47,17 +47,34 @@ class App extends Component{
           <Route exact path='/shop' component={Shop} />
           {//<Route exact path='/contact' component={Contact} />
           }
-          <Route exact path='/signIn' component={SignInAndSignUp} />
+          <Route exact path='/signin' 
+          render= { 
+            () =>
+          (this.props.currentUser) ?
+            (<Redirect to='/' />)
+              :
+            (<SignInAndSignUp/>) 
+          }
+
+          />
         </Switch>
       </div>
     );
-  }
-      
+  }    
 }
+
+
+const mapStateToProps = ({user}) =>({
+  currentUser: user.currentUser
+  
+})
 
 const mapDispatchToProps = dispatch =>({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 //connect first arg gets value, 2nd arg sets value
+
+
+
