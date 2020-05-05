@@ -5,7 +5,7 @@ import {ReactComponent as Logo} from '../../../src/assets/crown.svg';
 import {auth} from '../../firebase/firebase.utils';
 import {connect} from 'react-redux';
 import Cart from '../cart-icon/cart-icon'
-import CartDropdown from '../cart-dropdown/cart'
+import CartDropdown from '../cart-dropdown/cart-dropdown'
 
 const Header =({currentUser, cartHidden})=>{
         return(
