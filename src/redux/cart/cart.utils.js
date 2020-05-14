@@ -1,3 +1,4 @@
+
 export const addItemToCart = (cartItems, cartItemToAdd) =>{
     const existingCartItem= cartItems.find(cartItem => 
         cartItem.id === cartItemToAdd.id
@@ -15,3 +16,25 @@ export const addItemToCart = (cartItems, cartItemToAdd) =>{
     
 
 }
+
+export const clearItemFromCart = (cartItems, itemToRemove)=>{
+   return( cartItems.filter(item=> item.id !== itemToRemove.id) )       
+}
+
+export const removeItemFromCart = (cartItems, itemToRemove)=>{
+    
+    if(itemToRemove.quantity===1){
+        return cartItems.filter(item => item.id !== itemToRemove.id)
+    }else{
+    return cartItems.map( item =>
+        item.id === itemToRemove.id ?
+        {...item, quantity: itemToRemove.quantity-1}
+        :
+        item
+        )  
+    }
+}
+
+
+
+
