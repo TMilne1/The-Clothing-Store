@@ -21,9 +21,9 @@ const CollectionItem = ({item, addItem})=>{
 }
 
 
-const dispatchStateToProps = dipatch =>{
+const dispatchStateToProps = dispatch =>{
     return({
-        addItem:(item)=> dipatch(addItem(item))
+        addItem:(item)=> dispatch(addItem(item))
     })
 }
 
